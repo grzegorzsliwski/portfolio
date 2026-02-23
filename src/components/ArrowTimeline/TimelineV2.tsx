@@ -48,6 +48,24 @@ function ArrowCard({
   seeMoreLabel: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  // Detect if content (without tags) overflows the card
+  useEffect(() => {
+    const card = cardRef.current;
+    const measure = measureRef.current;
+    if (!card || !measure || !isSmall) { setIsOverflowing(false); return; }
+    const check = () => {
+      // measure the natural height of text content vs available card space
+      const cardH = card.clientHeight;
+      const contentH = measure.scrollHeight;
+      setIsOverflowing(contentH > cardH * 0.85);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [isSmall, item]);
 
   const handleMouseMove = useCallback(
     (e: ReactMouseEvent<HTMLDivElement>) => {
@@ -109,65 +127,103 @@ function ArrowCard({
         }}
       />
 
-      {/* Content */}
+      {/* Content – clipped to inner arrow shape */}
       <div
-        className="relative z-10 flex flex-col h-full py-4 gap-y-3 lg:py-14 lg:gap-y-6"
+        className="absolute z-10 overflow-hidden"
         style={{
-          justifyContent: isSmall ? "flex-start" : "center",
-          paddingLeft: isSmall ? (index === 0 ? "1.25rem" : "2.5rem") : "4rem",
-          paddingRight: isSmall ? "2.5rem" : "4rem",
-          paddingTop: isSmall ? "1.5rem" : undefined,
+          inset: "3px",
+          clipPath,
         }}
       >
+        <div
+          className="relative flex flex-col h-full py-4 gap-y-3 lg:py-14 lg:gap-y-6 overflow-hidden"
+          style={{
+            justifyContent: isSmall ? "flex-start" : "center",
+            paddingLeft: isSmall ? (index === 0 ? "1.25rem" : "2.5rem") : "4rem",
+            paddingRight: isSmall ? "2.5rem" : "4rem",
+            paddingTop: isSmall ? "1.5rem" : undefined,
+          }}
+        >
+        {/* Hidden measure wrapper to detect natural content height */}
+        {isSmall && (
+          <div ref={measureRef} className="absolute top-0 left-0 right-0 pointer-events-none opacity-0 flex flex-col py-4 gap-y-3" style={{ paddingLeft: index === 0 ? "1.25rem" : "2.5rem", paddingRight: "2.5rem", paddingTop: "1.5rem" }} aria-hidden>
+            <span className="text-xs font-semibold">{item.date}</span>
+            <h3 className="text-xl font-bold leading-snug">{item.title}</h3>
+            {item.description && <p className="text-sm leading-relaxed">{item.description}</p>}
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {item.tags.filter(Boolean).map((tag) => <span key={tag} className="text-xs px-2.5 py-1">{tag}</span>)}
+            </div>
+          </div>
+        )}
         <span className={`text-xs lg:text-sm font-semibold uppercase tracking-widest ${theme.accent === "#4ade80" ? "text-green-400" : "text-green-600"}`}>{item.date}</span>
         <h3 className={`text-xl lg:text-5xl font-bold ${theme.title} leading-snug`}>{item.title}</h3>
 
         {/* Description: full on desktop, faded on mobile */}
         {item.description && (
           isSmall ? (
-            <div className="relative flex-1 min-h-0 overflow-hidden">
+            <div className="relative min-h-0 max-h-[25vh]">
               <p className={`text-sm ${theme.desc} leading-relaxed`}>{item.description}</p>
-              {/* Fade-out gradient */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
-                style={{ background: `linear-gradient(to bottom, transparent, ${theme.fill})` }}
-              />
             </div>
           ) : (
             <p className={`text-xl ${theme.desc} leading-relaxed max-w-lg`}>{item.description}</p>
           )
         )}
 
-        {/* Tags */}
-        <div className={`flex flex-wrap mt-2 ${isSmall ? "gap-1.5 max-h-[30vh] overflow-hidden relative" : "gap-3"}`}>
-          {item.tags.filter(Boolean).map((tag) => (
-            <span
-              key={tag}
-              className={`rounded-full border ${theme.badgeBorder} ${theme.badgeText}
-                         ${theme.badgeBg} backdrop-blur-sm ${isSmall ? "text-xs px-2.5 py-1" : "text-base px-4 py-1.5"}`}
-            >
-              {tag}
-            </span>
-          ))}
-          {/* Fade out if tags overflow on mobile */}
-          {isSmall && (
-            <div
-              className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
-              style={{ background: `linear-gradient(to bottom, transparent, ${theme.fill})` }}
-            />
-          )}
+        {/* Tags: hidden on mobile (shown in overlay via See more), visible on desktop */}
+        {!isSmall && (
+          <div className="flex flex-wrap mt-2 gap-3">
+            {item.tags.filter(Boolean).map((tag) => (
+              <span
+                key={tag}
+                className={`rounded-full border ${theme.badgeBorder} ${theme.badgeText}
+                           ${theme.badgeBg} backdrop-blur-sm text-base px-4 py-1.5`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile: tags shown inline only when they fit */}
+        {isSmall && !isOverflowing && (
+          <div className="flex flex-wrap mt-2 gap-1.5">
+            {item.tags.filter(Boolean).map((tag) => (
+              <span
+                key={tag}
+                className={`rounded-full border ${theme.badgeBorder} ${theme.badgeText}
+                           ${theme.badgeBg} backdrop-blur-sm text-xs px-2.5 py-1`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         </div>
 
-        {/* Mobile: "See more" button – styled like action-btn */}
-        {isSmall && (item.description || item.tags.some(Boolean)) && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onOpen(); }}
-            className="timeline-see-more-btn"
-          >
-            {seeMoreLabel} →
-          </button>
+        {/* Mobile: fade-out gradient at bottom when overflowing */}
+        {isSmall && isOverflowing && (
+          <div
+            className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+            style={{
+              background: `linear-gradient(to bottom, transparent, ${theme.fill})`,
+            }}
+          />
         )}
       </div>
+
+      {/* Mobile: "See more" button pinned to bottom – only when content overflows */}
+      {isSmall && isOverflowing && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onOpen(); }}
+          className="timeline-see-more-btn absolute bottom-4 z-20"
+          style={{
+            left: index === 0 ? "1.25rem" : "2.5rem",
+          }}
+        >
+          {seeMoreLabel} →
+        </button>
+      )}
     </div>
   );
 }
