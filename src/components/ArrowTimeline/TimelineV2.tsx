@@ -161,8 +161,13 @@ function ArrowCard({
         {/* Description: full on desktop, faded on mobile */}
         {item.description && (
           isSmall ? (
-            <div className="relative min-h-0 max-h-[25vh]">
+            <div className="relative min-h-0 max-h-[25vh] overflow-hidden">
               <p className={`text-sm ${theme.desc} leading-relaxed`}>{item.description}</p>
+              {/* Fade if description itself is clipped */}
+              <div
+                className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
+                style={{ background: `linear-gradient(to bottom, transparent, ${theme.fill})` }}
+              />
             </div>
           ) : (
             <p className={`text-xl ${theme.desc} leading-relaxed max-w-lg`}>{item.description}</p>
