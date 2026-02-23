@@ -71,10 +71,18 @@ function AppContent() {
 
         {/* ── Sekcja O MNIE ─────────────────────────────────────── */}
         <section id="about" className="relative w-full pt-32">
+          {/* Photo – positioned relative to full section width */}
+          <div className="hidden lg:block absolute right-[8%] top-1/2 -translate-y-1/2 w-[600px] z-0">
+            <img
+              src="/src/assets/ja.png"
+              alt="Grzegorz Śliwski"
+              className="w-full h-auto object-contain grayscale-[0.2] hover:grayscale-0 transition-[filter] duration-[400ms] ease-in-out"
+            />
+          </div>
           <div className="max-w-[80rem] mx-auto px-6 md:px-24">
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 py-16">
+            <div className="relative py-16">
               {/* Left: text content */}
-              <div className="flex-[1_1_60%] min-w-0 relative space-y-8">
+              <div className="lg:max-w-[55%] relative space-y-8 z-10">
                 {/* Hover hint – to the left of first text */}
                 <div className="about-hover-hint">
                   <span>{t.aboutHoverHint}</span>
@@ -127,14 +135,7 @@ function AppContent() {
                 />
               </div>
 
-              {/* Right: photo */}
-              <div className="shrink-0 grow-0 w-[260px] lg:w-[340px] flex items-center justify-center -order-1 lg:order-none">
-                <img
-                  src="/photo.png"
-                  alt="Grzegorz Śliwski"
-                  className="w-full h-auto object-contain grayscale-[0.2] hover:grayscale-0 transition-[filter] duration-[400ms] ease-in-out"
-                />
-              </div>
+
             </div>
           </div>
         </section>
