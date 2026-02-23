@@ -103,6 +103,7 @@ button:active {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5rem;
+  mix-blend-mode: difference;
 }
 
 .nav-sidebar__link {
@@ -701,6 +702,7 @@ button:active {
   transition:
     color 0.3s ease,
     background-color 0.3s ease;
+  mix-blend-mode: difference;
 }
 
 .theme-toggle:hover {
@@ -793,25 +795,25 @@ button:active {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.04);
 }
 
-/* Nav sidebar — light mode */
+/* Nav sidebar — light mode (white base, difference blend inverts to dark) */
 [data-theme="light"] .nav-sidebar__link {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 [data-theme="light"] .nav-sidebar__link:hover,
 [data-theme="light"] .nav-sidebar__link--active {
-  color: rgba(0, 0, 0, 0.95);
-  background-color: rgba(0, 0, 0, 0.06);
+  color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
-/* Theme toggle — light mode */
+/* Theme toggle — light mode (white base, difference blend inverts to dark) */
 [data-theme="light"] .theme-toggle {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 [data-theme="light"] .theme-toggle:hover {
-  color: rgba(0, 0, 0, 0.95);
-  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 /* Language toggle — light mode */

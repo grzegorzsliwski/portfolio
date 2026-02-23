@@ -70,19 +70,27 @@ function AppContent() {
         </section>
 
         {/* ── Sekcja O MNIE ─────────────────────────────────────── */}
-        <section id="about" className="relative w-full pt-32">
-          {/* Photo – positioned relative to full section width */}
-          <div className="hidden lg:block absolute right-[8%] top-1/2 -translate-y-1/2 w-[600px] z-0">
+        <section id="about" className="relative w-full pt-32 overflow-x-hidden">
+          {/* Photo – large, right side on desktop */}
+          <div className="hidden min-[1400px]:block absolute right-0 top-1/2 -translate-y-1/2 w-[42vw] max-w-[800px] z-0">
             <img
               src="/src/assets/ja.png"
               alt="Grzegorz Śliwski"
               className="w-full h-auto object-contain grayscale-[0.2] hover:grayscale-0 transition-[filter] duration-[400ms] ease-in-out"
             />
           </div>
+          {/* Photo – above text on smaller screens */}
+          <div className="min-[1400px]:hidden flex justify-center px-6">
+            <img
+              src="/src/assets/ja.png"
+              alt="Grzegorz Śliwski"
+              className="w-full max-w-[280px] sm:max-w-[360px] md:max-w-[440px] h-auto object-contain grayscale-[0.2] hover:grayscale-0 transition-[filter] duration-[400ms] ease-in-out"
+            />
+          </div>
           <div className="max-w-[80rem] mx-auto px-6 md:px-24">
-            <div className="relative py-16">
-              {/* Left: text content */}
-              <div className="lg:max-w-[55%] relative space-y-8 z-10">
+            <div className="py-16">
+              {/* Text content – capped width on large screens so it doesn't overlap photo */}
+              <div className="min-[1400px]:max-w-[55%] relative space-y-8">
                 {/* Hover hint – to the left of first text */}
                 <div className="about-hover-hint">
                   <span>{t.aboutHoverHint}</span>
@@ -134,8 +142,6 @@ function AppContent() {
                   }
                 />
               </div>
-
-
             </div>
           </div>
         </section>
