@@ -159,8 +159,16 @@ const en: Translations = {
         "Developed backend features for SelfExpo, with a focus on self-serviced pavilion registration.",
       tags: ["Next.js", "TypeScript", "MongoDB", "JWT", "Jest", "Github", "REST API"],
     },
-    {
+        {
       id: "career-2",
+      date: "2024",
+      title: "ITM Code – internship as a mobile developer",
+      description:
+        "I was responsible for developing a networking application for the Kielce Technology Park.",
+      tags: ["TypeScript", "React Native", "Gitlab", "CSS"],
+    },
+    {
+      id: "career-3",
       date: "2024",
       title: "Contract Collaboration – Tonerico",
       description:
@@ -168,7 +176,7 @@ const en: Translations = {
       tags: ["Google Sheets", "Google Apps Script"],
     },
     {
-      id: "career-3",
+      id: "career-4",
       date: "2025",
       title: "LEOCODE — Junior Fullstack Developer",
       description:
@@ -176,7 +184,7 @@ const en: Translations = {
       tags: ["TypeScript", "Next.js", "Three.js", "PostgreSQL", "MinIO", "Redis", "REST API"],
     },
     {
-      id: "career-4",
+      id: "career-5",
       date: "2025",
       title: "ALEATEX — Fullstack Developer",
       description:
@@ -192,7 +200,7 @@ const en: Translations = {
       tags: [""],
     },
     {
-      id: "career-5",
+      id: "career-6",
       date: "now",
       title: "A collaboration with your company?",
       description:
