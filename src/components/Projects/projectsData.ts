@@ -1,0 +1,83 @@
+export interface Project {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  images: string[];
+  year: string;
+  link?: string;
+  github?: string;
+}
+
+export const projectsData: Project[] = [
+  {
+    id: 1,
+    title: "Tutoring Platform",
+    subtitle: "Startup Project",
+    description:
+      "Tutoring platform with intelligent search, payment system, interactive whiteboard, voice chat and geolocation.",
+    tags: ["Supabase", "Node.js", "React", "PostgreSQL", "Stripe"],
+    images: [],
+    year: "now",
+    link: "#",
+    github: "#",
+  },
+  {
+    id: 2,
+    title: "Portfolio",
+    subtitle: "Personal Website",
+    description:
+      "Interactive portfolio with custom scroll animations, typewriter effect and a custom cursor. Built with React + TypeScript and Tailwind CSS.",
+    tags: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    images: ["src/assets/portfolio.png"],
+    year: "2026",
+    link: "#",
+    github: "#",
+  },
+  {
+    id: 3,
+    title: "Diploma Thesis",
+    subtitle: "Pathological mass detection using transfer learning",
+    description:
+      "Machine learning model built with transfer learning to detect pathological masses in X-ray images using Python libraries such as TensorFlow and Keras.",
+    tags: ["Python", "TensorFlow", "Keras", "NIH Chest X-ray Dataset"],
+    images: [
+      "src/assets/praca-dyplomowa.png",
+      "src/assets/praca-dyplomowa-2.png",
+    ],
+    year: "2025",
+    link: "#",
+    github: "#",
+  },
+  {
+    id: 4,
+    title: "Strength Training Logger",
+    subtitle: "Mobile Application",
+    description:
+      "Mobile application for logging strength training sessions with workout planning and progress tracking features. Built with React Native, MongoDB, Fastify and Nativewind.",
+    tags: ["React Native", "MongoDB", "Nativewind", "Fastify"],
+    images: [
+      "src/assets/platforma-treningowa-1.jpg",
+      "src/assets/platforma-treningowa-2.jpg",
+      "src/assets/platforma-treningowa-3.jpg",
+    ],
+    year: "2024",
+    link: "#",
+    github: "#",
+  },
+  {
+    id: 5,
+    title: "Cheap Flight Alert System",
+    subtitle: "Desktop Application",
+    description:
+      "System for finding cheap flights and sending promotional SMS notifications. Built with Python and Twilio.",
+    tags: ["Python", "Twilio"],
+    images: [
+      "src/assets/wyszukiwarka-lotow.png",
+    ],
+    year: "2024",
+    link: "#",
+    github: "#",
+  },
+];
