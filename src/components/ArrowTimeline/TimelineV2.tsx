@@ -60,7 +60,7 @@ function ArrowCard({
       // measure the natural height of text content vs available card space
       const cardH = card.clientHeight;
       const contentH = measure.scrollHeight;
-      setIsOverflowing(contentH > cardH * 0.85);
+      setIsOverflowing(contentH > cardH * 0.95);
     };
     check();
     window.addEventListener("resize", check);
