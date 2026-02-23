@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback, useEffect, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
 import { type TimelineV2Item } from "./timelineV2Data";
 import { useTheme } from "../../ThemeContext";
+import { useI18n } from "../../I18nContext";
 
 // How many "screens" of vertical scroll we map onto the full track width */
 const SCROLL_SCREENS = 3;
@@ -35,12 +36,16 @@ function ArrowCard({
   fillProgress,
   theme,
   isSmall,
+  onOpen,
+  seeMoreLabel,
 }: {
   item: TimelineV2Item;
   index: number;
   fillProgress: number;
   theme: typeof DARK;
   isSmall: boolean;
+  onOpen: () => void;
+  seeMoreLabel: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +72,8 @@ function ArrowCard({
       className="group relative flex-shrink-0 transition-transform duration-300 ease-out hover:scale-[1.03] overflow-hidden"
       style={{
         width: isSmall ? "clamp(260px, 82vw, 420px)" : "720px",
-        minHeight: isSmall ? "min(350px, calc(100svh - 14vh))" : 500,
+        height: isSmall ? "calc(100svh - 12vh)" : undefined,
+        minHeight: isSmall ? undefined : 500,
         // Negative margin so arrows overlap and connect visually
         marginLeft: index === 0 ? 0 : isSmall ? "-1.5rem" : "-2.8rem",
       }}
@@ -106,23 +112,119 @@ function ArrowCard({
 
       {/* Content */}
       <div
-        className="relative z-10 flex flex-col justify-center h-full py-8 gap-y-4 lg:py-14 lg:gap-y-6"
+        className="relative z-10 flex flex-col h-full py-4 gap-y-3 lg:py-14 lg:gap-y-6"
         style={{
-          minHeight: isSmall ? "min(350px, calc(100svh - 14vh))" : 500,
+          minHeight: isSmall ? undefined : 500,
+          justifyContent: isSmall ? "flex-start" : "center",
           paddingLeft: isSmall ? (index === 0 ? "1.25rem" : "2.5rem") : "4rem",
           paddingRight: isSmall ? "2.5rem" : "4rem",
+          paddingTop: isSmall ? "1.5rem" : undefined,
         }}
       >
-        <span className={`text-sm font-semibold uppercase tracking-widest ${theme.accent === "#4ade80" ? "text-green-400" : "text-green-600"}`}>{item.date}</span>
-        <h3 className={`text-2xl lg:text-5xl font-bold ${theme.title} leading-snug`}>{item.title}</h3>
+        <span className={`text-xs lg:text-sm font-semibold uppercase tracking-widest ${theme.accent === "#4ade80" ? "text-green-400" : "text-green-600"}`}>{item.date}</span>
+        <h3 className={`text-xl lg:text-5xl font-bold ${theme.title} leading-snug`}>{item.title}</h3>
+
+        {/* Description: full on desktop, faded on mobile */}
         {item.description && (
-          <p className={`text-base lg:text-xl ${theme.desc} leading-relaxed max-w-lg`}>{item.description}</p>
+          isSmall ? (
+            <div className="relative flex-1 min-h-0 overflow-hidden">
+              <p className={`text-sm ${theme.desc} leading-relaxed`}>{item.description}</p>
+              {/* Fade-out gradient */}
+              <div
+                className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+                style={{ background: `linear-gradient(to bottom, transparent, ${theme.fill})` }}
+              />
+            </div>
+          ) : (
+            <p className={`text-xl ${theme.desc} leading-relaxed max-w-lg`}>{item.description}</p>
+          )
         )}
-        <div className="flex flex-wrap gap-2 lg:gap-3 mt-2">
+
+        {/* Tags: hidden on mobile (shown in overlay), visible on desktop */}
+        {!isSmall && (
+          <div className="flex flex-wrap gap-3 mt-2">
+            {item.tags.filter(Boolean).map((tag) => (
+              <span
+                key={tag}
+                className={`text-base px-4 py-1.5 rounded-full border ${theme.badgeBorder} ${theme.badgeText}
+                           ${theme.badgeBg} backdrop-blur-sm`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile: "See more" button – styled like action-btn */}
+        {isSmall && (item.description || item.tags.some(Boolean)) && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onOpen(); }}
+            className="timeline-see-more-btn"
+          >
+            {seeMoreLabel} →
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Fullscreen detail overlay (mobile) ──────────────────────────────────────
+
+function DetailOverlay({
+  item,
+  theme,
+  onClose,
+  closeLabel,
+}: {
+  item: TimelineV2Item;
+  theme: typeof DARK;
+  onClose: () => void;
+  closeLabel: string;
+}) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("timeline-overlay-open");
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.body.classList.remove("timeline-overlay-open");
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[10000] flex flex-col animate-[fadeIn_0.25s_ease]"
+      style={{ background: theme.fill === "#0a0a0a" ? "rgba(10,10,10,0.97)" : "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)" }}
+    >
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="timeline-overlay-close"
+        aria-label={closeLabel}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-6 pb-12 pt-3">
+        <span className={`block pt-1 text-sm font-semibold uppercase tracking-widest ${theme.accent === "#4ade80" ? "text-green-400" : "text-green-600"}`}>
+          {item.date}
+        </span>
+        <h2 className={`text-3xl font-bold ${theme.title} leading-snug mt-3 mb-4`}>{item.title}</h2>
+        {item.description && (
+          <p className={`text-base ${theme.desc} leading-relaxed mb-6`}>{item.description}</p>
+        )}
+        <div className="flex flex-wrap gap-2">
           {item.tags.filter(Boolean).map((tag) => (
             <span
               key={tag}
-              className={`text-sm lg:text-base px-3 lg:px-4 py-1 lg:py-1.5 rounded-full border ${theme.badgeBorder} ${theme.badgeText}
+              className={`text-sm px-3 py-1 rounded-full border ${theme.badgeBorder} ${theme.badgeText}
                          ${theme.badgeBg} backdrop-blur-sm`}
             >
               {tag}
@@ -146,8 +248,10 @@ export function TimelineV2({ items }: TimelineV2Props) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
   const [isSmall, setIsSmall] = useState(window.innerWidth < 1024);
+  const [openItem, setOpenItem] = useState<TimelineV2Item | null>(null);
   const rafId = useRef(0);
   const { isLight } = useTheme();
+  const { lang } = useI18n();
   const theme = isLight ? LIGHT : DARK;
 
   // ── Measure track width ──────────────────────────────────────────────────
@@ -233,11 +337,23 @@ export function TimelineV2({ items }: TimelineV2Props) {
                 fillProgress={cardFill}
                 theme={theme}
                 isSmall={isSmall}
+                onOpen={() => setOpenItem(item)}
+                seeMoreLabel={lang === "pl" ? "Zobacz więcej" : "See more"}
               />
             );
           })}
         </div>
       </div>
+
+      {/* Fullscreen detail overlay (mobile) */}
+      {openItem && (
+        <DetailOverlay
+          item={openItem}
+          theme={theme}
+          onClose={() => setOpenItem(null)}
+          closeLabel={lang === "pl" ? "Zamknij" : "Close"}
+        />
+      )}
     </section>
   );
 }

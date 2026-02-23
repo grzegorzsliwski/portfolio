@@ -42,10 +42,12 @@ interface Translations {
   contactLabel: string;
   contactSubheading: string;
   contactAvailability: string;
-  footerEmail: string;
-  footerPhone: string;
+  footerEmailLabel: string;
   footerPhoneLabel: string;
   footerCvLabel: string;
+  footerCopied: string;
+  footerOpenCv: string;
+
 
   // CTA
   ctaText: string;
@@ -120,10 +122,12 @@ const en: Translations = {
   contactLabel: "Connect",
   contactSubheading: "Let's build something great together.",
   contactAvailability: "Available for freelance & full-time opportunities",
-  footerEmail: "grzegorzsliwski@gmail.com",
-  footerPhone: "+48 503 600 749",
+  footerEmailLabel: "Email",
   footerPhoneLabel: "Phone",
-  footerCvLabel: "Download CV",
+  footerCvLabel: "Resume",
+  footerCopied: "Copied!",
+  footerOpenCv: "Open CV",
+
 
   ctaText: "Ready to collaborate? Let's talk about your next project.",
   ctaHighlight: "your",
@@ -268,10 +272,12 @@ const pl: Translations = {
   contactLabel: "Kontakt",
   contactSubheading: "Zbudujmy razem coś wyjątkowego.",
   contactAvailability: "Dostępny na zlecenia i współpracę",
-  footerEmail: "grzegorzsliwski@gmail.com",
-  footerPhone: "+48 503 600 749",
+  footerEmailLabel: "Email",
   footerPhoneLabel: "Telefon",
-  footerCvLabel: "Pobierz CV",
+  footerCvLabel: "CV",
+  footerCopied: "Skopiowano!",
+  footerOpenCv: "Otwórz CV",
+
 
   ctaText: "Gotowy na współpracę? Porozmawiajmy o Twoim następnym projekcie.",
   ctaHighlight: "Twoim",

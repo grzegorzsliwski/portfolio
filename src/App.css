@@ -1,8 +1,3 @@
-/* Remove focus outline and shadow from footer buttons */
-.footer__copy-btn:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
 /* Remove focus outline and shadow from sidebar buttons */
 .social-sidebar__icon:focus,
 .theme-toggle:focus,
@@ -10,9 +5,21 @@
 .mobile-drawer__toggle:focus,
 .mobile-drawer__nav-link:focus,
 .mobile-drawer__social-icon:focus,
-.mobile-drawer__action-btn:focus {
+.mobile-drawer__action-btn:focus,
+.timeline-see-more-btn:focus,
+button:focus {
   outline: none !important;
   box-shadow: none !important;
+}
+
+.timeline-see-more-btn:active,
+button:active {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="light"] .timeline-see-more-btn:active,
+[data-theme="light"] button:active {
+  color: rgba(0, 0, 0, 0.95);
 }
 /* ── Social Sidebar ───────────────────────────────────────────────────────── */
 
@@ -549,48 +556,6 @@
   transform: translate(2px, -2px);
 }
 
-.footer__info-label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.footer__info-value {
-  font-size: 1.35rem;
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-a.footer__info-value {
-  text-decoration: none;
-}
-
-a.footer__info-value:hover {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.footer__copy-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 0.375rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.4);
-  padding: 0;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-  outline: none;
-}
-
-.footer__copy-btn:hover {
-  color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
 .footer__availability-text {
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.4);
@@ -610,6 +575,77 @@ a.footer__info-value:hover {
 @keyframes footer-pulse-anim {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
+}
+
+/* ── Footer contact column (right) ── */
+
+.footer__contact-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.footer__contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.footer__contact-row--availability {
+  margin-top: 0.5rem;
+}
+
+.footer__info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer__contact-value-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer__info-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.footer__info-value:hover {
+  color: #ffffff;
+}
+
+.footer__copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.footer__copy-btn:hover {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* ── Footer bottom bar ── */
@@ -637,6 +673,10 @@ a.footer__info-value:hover {
 
   .footer-link__text {
     font-size: 1.5rem;
+  }
+
+  .footer__contact-col {
+    margin-top: 1rem;
   }
 }
 
@@ -797,31 +837,30 @@ a.footer__info-value:hover {
   color: #000000;
 }
 
+[data-theme="light"] .footer__availability-text {
+  color: rgba(0, 0, 0, 0.6);
+}
+
 [data-theme="light"] .footer__info-label {
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="light"] .footer__info-value {
   color: rgba(0, 0, 0, 0.85);
 }
 
-[data-theme="light"] a.footer__info-value:hover {
-  color: rgba(0, 0, 0, 0.95);
+[data-theme="light"] .footer__info-value:hover {
+  color: #000000;
 }
-
-[data-theme="light"] .footer__availability-text {
-  color: rgba(0, 0, 0, 0.6);
-}
-
 
 [data-theme="light"] .footer__copy-btn {
-  border-color: rgba(0, 0, 0, 0.18);
-  background: rgba(0, 0, 0, 0.07);
-  color: rgba(0, 0, 0, 0.7);
+  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="light"] .footer__copy-btn:hover {
-  color: rgba(0, 0, 0, 0.9);
+  color: rgba(0, 0, 0, 0.95);
   background: rgba(0, 0, 0, 0.08);
   border-color: rgba(0, 0, 0, 0.2);
 }
@@ -861,6 +900,90 @@ a.footer__info-value:hover {
 @keyframes lightbox-scale-in {
   from { transform: scale(0.85); opacity: 0; }
   to   { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Timeline "See more" button ───────────────────────────────────────────── */
+
+.timeline-see-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.timeline-see-more-btn:hover,
+.timeline-see-more-btn:active {
+  color: rgba(255, 255, 255, 0.95);
+  background-color: transparent;
+}
+
+[data-theme="light"] .timeline-see-more-btn {
+  border: none;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .timeline-see-more-btn:hover,
+[data-theme="light"] .timeline-see-more-btn:active {
+  color: rgba(0, 0, 0, 0.95);
+  background-color: transparent;
+}
+
+/* Hide hamburger when timeline detail overlay is open */
+body.timeline-overlay-open .mobile-drawer__toggle {
+  display: none !important;
+}
+
+/* Timeline overlay close button (X icon) */
+.timeline-overlay-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.timeline-overlay-close:hover,
+.timeline-overlay-close:active {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="light"] .timeline-overlay-close {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .timeline-overlay-close:hover,
+[data-theme="light"] .timeline-overlay-close:active {
+  color: rgba(0, 0, 0, 0.95);
 }
 
 /* ── Hide sidebar elements on very small screens ──────────────────────────── */
