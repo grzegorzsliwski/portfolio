@@ -27,9 +27,6 @@ interface ScrollRevealTextProps {
  *  4. W obrębie linii postęp jest rozkładany od lewej do prawej,
  *     dzięki czemu kolor "wchodzi" w kierunku czytania.
  *  5. Kolor jest interpolowany płynnie (rgba) przez requestAnimationFrame.
- *
- * Animacja startuje, gdy linia osiąga 60% wysokości viewportu,
- * i kończy się, gdy linia dotrze do 30%.
  */
 export function ScrollRevealText({
   text,

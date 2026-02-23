@@ -81,7 +81,7 @@ export function Contact() {
 
   return (
     <footer id="contact" className="footer">
-      <div className="footer__inner">
+      <div className="max-w-[80rem] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-16 items-start">
         {/* Left: social links in 2x2 grid */}
         <nav
           className="footer__links-col"
@@ -104,13 +104,13 @@ export function Contact() {
 
         {/* Right: direct contact info */}
         <div
-          className="footer__info-col"
+          className="flex flex-col gap-5 min-w-[14rem] cursor-auto"
           onMouseEnter={() => setSidebarHover(true)}
           onMouseLeave={() => setSidebarHover(false)}
         >
-          <div className="footer__info-block">
+          <div className="flex flex-col gap-[0.2rem]">
             <span className="footer__info-label">Email</span>
-            <div className="footer__email-row">
+            <div className="flex items-center gap-2">
               <span className="footer__info-value">{t.footerEmail}</span>
               <button
                 type="button"
@@ -122,9 +122,9 @@ export function Contact() {
               </button>
             </div>
           </div>
-          <div className="footer__info-block">
+          <div className="flex flex-col gap-[0.2rem]">
             <span className="footer__info-label">{t.footerPhoneLabel}</span>
-            <div className="footer__email-row">
+            <div className="flex items-center gap-2">
               <span className="footer__info-value">{t.footerPhone}</span>
               <button
                 type="button"
@@ -136,9 +136,9 @@ export function Contact() {
               </button>
             </div>
           </div>
-          <div className="footer__info-block">
+          <div className="flex flex-col gap-[0.2rem]">
             <span className="footer__info-label">CV</span>
-            <div className="footer__email-row">
+            <div className="flex items-center gap-2">
               <span className="footer__info-value">{t.footerCvLabel}</span>
               <a
                 href="/cv.pdf"
@@ -154,8 +154,8 @@ export function Contact() {
               </a>
             </div>
           </div>
-          <div className="footer__info-block">
-            <div className="footer__availability">
+          <div className="flex flex-col gap-[0.2rem]">
+            <div className="flex items-center gap-2">
               <span className="footer-pulse" />
               <span className="footer__availability-text">
                 {t.contactAvailability}
@@ -166,7 +166,7 @@ export function Contact() {
       </div>
 
       {/* Bottom bar */}
-      <div className="footer__bottom">
+      <div className="max-w-[80rem] mt-16 mx-auto px-6 md:px-12 py-5 md:py-6">
         <span className="footer__copyright">
           © {new Date().getFullYear()} Grzegorz Śliwski
         </span>

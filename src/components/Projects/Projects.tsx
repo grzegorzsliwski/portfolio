@@ -14,7 +14,7 @@ export function Projects() {
   return (
     <section id="projects" className="relative w-full py-32">
       {/* Section header */}
-      <div className="archive-container" style={{ marginBottom: '4rem' }}>
+      <div className="max-w-[80rem] mx-auto px-6 md:px-24" style={{ marginBottom: '4rem' }}>
         <TextReveal
           className="block pb-8"
           revealed={

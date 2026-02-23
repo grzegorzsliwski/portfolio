@@ -10,47 +10,6 @@
   outline: none !important;
   box-shadow: none !important;
 }
-#root {
-  width: 100%;
-  min-height: 100vh;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
 /* ── Social Sidebar ───────────────────────────────────────────────────────── */
 
 .social-sidebar {
@@ -159,11 +118,6 @@
   background-color: rgba(255, 255, 255, 0.06);
 }
 
-.nav-sidebar__text {
-  display: inline;
-  min-width: 0;
-}
-
 .nav-sidebar__cursor {
   display: inline-block;
   opacity: 0;
@@ -180,49 +134,6 @@
 @keyframes nav-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-/* ── Projects / Archive Section ────────────────────────────────────────────── */
-
-.archive-container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 6rem;
-}
-
-/* ── About layout (text left + photo right) ───────────────────────────────── */
-
-.about-layout {
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-  padding: 4rem 0;
-}
-
-.about-layout__text {
-  flex: 1 1 60%;
-  min-width: 0;
-  position: relative;
-}
-
-.about-layout__photo {
-  flex: 0 0 auto;
-  width: 340px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.about-photo {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: grayscale(0.2);
-  transition: filter 0.4s ease;
-}
-
-.about-photo:hover {
-  filter: grayscale(0);
 }
 
 /* ── About hover hint ─────────────────────────────────────────────────────── */
@@ -268,18 +179,6 @@
 @media (max-width: 1500px) {
   .about-hover-hint {
     display: none;
-  }
-}
-
-@media (max-width: 1024px) {
-  .about-layout {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .about-layout__photo {
-    width: 260px;
-    order: -1;
   }
 }
 
@@ -515,10 +414,6 @@
 }
 
 @media (max-width: 768px) {
-  .archive-container {
-    padding: 0 1.5rem;
-  }
-
   .archive-row {
     flex-direction: column;
     align-items: flex-start;
@@ -608,16 +503,6 @@
   padding: 6rem 0 0;
 }
 
-.footer__inner {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 3rem;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 4rem;
-  align-items: start;
-}
-
 /* ── Footer links ── */
 
 .footer__links-col {
@@ -660,22 +545,6 @@
   transform: translate(2px, -2px);
 }
 
-/* ── Footer info column ── */
-
-.footer__info-col {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  min-width: 14rem;
-  cursor: auto;
-}
-
-.footer__info-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
 .footer__info-label {
   font-size: 0.85rem;
   font-weight: 700;
@@ -697,12 +566,6 @@ a.footer__info-value:hover {
   color: rgba(255, 255, 255, 0.4);
 }
 
-.footer__email-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .footer__copy-btn {
   display: inline-flex;
   align-items: center;
@@ -722,12 +585,6 @@ a.footer__info-value:hover {
   color: rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
-}
-
-.footer__availability {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .footer__availability-text {
@@ -753,12 +610,6 @@ a.footer__info-value:hover {
 
 /* ── Footer bottom bar ── */
 
-.footer__bottom {
-  max-width: 80rem;
-  margin: 4rem auto 0;
-  padding: 1.5rem 3rem;
-}
-
 .footer__copyright {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.45);
@@ -775,12 +626,6 @@ a.footer__info-value:hover {
 }
 
 @media (max-width: 768px) {
-  .footer__inner {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1.5rem;
-  }
-
   .footer__links-col {
     grid-template-columns: 1fr;
     gap: 0.25rem;
@@ -788,10 +633,6 @@ a.footer__info-value:hover {
 
   .footer-link__text {
     font-size: 1.5rem;
-  }
-
-  .footer__bottom {
-    padding: 1.25rem 1.5rem;
   }
 }
 

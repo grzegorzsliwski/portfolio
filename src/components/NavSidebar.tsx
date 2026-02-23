@@ -116,7 +116,7 @@ function TypewriterLink({ item }: { item: NavItem }) {
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      <span className="nav-sidebar__text">
+      <span className="inline min-w-0">
         {displayed}
         <span className={`nav-sidebar__cursor ${isHovered ? "nav-sidebar__cursor--visible" : ""}`}>
           |

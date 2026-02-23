@@ -179,10 +179,8 @@ function ScrollRevealFront({
 /**
  * TextReveal – komponent nakładający dwie warstwy tekstu:
  *
- *  ┌─────────────────────────────────────┐
- *  │  front  (normalny lub scroll-reveal)│  ← zawsze widoczny
- *  │  back   (stylizowany tekst)         │  ← widoczny tylko pod kółkiem kursora
- *  └─────────────────────────────────────┘
+ * front  (normalny lub scroll-reveal)  ← zawsze widoczny
+ * back   (stylizowany tekst)           ← widoczny tylko pod kółkiem kursora
  *
  * Dwa tryby front:
  *  1. Statyczny: podajesz `children` (dowolne ReactNode)

@@ -2,12 +2,8 @@ import { useRef, useState, useCallback, useEffect, type CSSProperties, type Mous
 import { type TimelineV2Item } from "./timelineV2Data";
 import { useTheme } from "../../ThemeContext";
 
-// ─── Config ──────────────────────────────────────────────────────────────────
-
-/** How many "screens" of vertical scroll we map onto the full track width */
+// How many "screens" of vertical scroll we map onto the full track width */
 const SCROLL_SCREENS = 3;
-
-// ─── Arrow colours ───────────────────────────────────────────────────────────
 
 const DARK = {
   border: "#6b7280",
@@ -32,8 +28,6 @@ const LIGHT = {
   badgeBg: "bg-gray-100",
   glow: "rgba(0,0,0,0.03)",
 };
-
-// ─── Single arrow card ───────────────────────────────────────────────────────
 
 function ArrowCard({
   item,
