@@ -1,3 +1,11 @@
+import portfolioImg from "../../assets/portfolio.png";
+import pracaDyplomowaImg from "../../assets/praca-dyplomowa.png";
+import pracaDyplomowa2Img from "../../assets/praca-dyplomowa-2.png";
+import platformaTreningowa1Img from "../../assets/platforma-treningowa-1.jpg";
+import platformaTreningowa2Img from "../../assets/platforma-treningowa-2.jpg";
+import platformaTreningowa3Img from "../../assets/platforma-treningowa-3.jpg";
+import wyszukiwarkaLotowImg from "../../assets/wyszukiwarka-lotow.png";
+
 export interface Project {
   id: number;
   title: string;
@@ -30,7 +38,7 @@ export const projectsData: Project[] = [
     description:
       "Interactive portfolio with custom scroll animations, typewriter effect and a custom cursor. Built with React + TypeScript and Tailwind CSS.",
     tags: ["React", "TypeScript", "Tailwind CSS", "Vite"],
-    images: ["src/assets/portfolio.png"],
+    images: [portfolioImg],
     year: "2026",
     link: "#",
     github: "#",
@@ -43,8 +51,8 @@ export const projectsData: Project[] = [
       "Machine learning model built with transfer learning to detect pathological masses in X-ray images using Python libraries such as TensorFlow and Keras.",
     tags: ["Python", "TensorFlow", "Keras", "NIH Chest X-ray Dataset"],
     images: [
-      "src/assets/praca-dyplomowa.png",
-      "src/assets/praca-dyplomowa-2.png",
+      pracaDyplomowaImg,
+      pracaDyplomowa2Img,
     ],
     year: "2025",
     link: "#",
@@ -58,9 +66,9 @@ export const projectsData: Project[] = [
       "Mobile application for logging strength training sessions with workout planning and progress tracking features. Built with React Native, MongoDB, Fastify and Nativewind.",
     tags: ["React Native", "MongoDB", "Nativewind", "Fastify"],
     images: [
-      "src/assets/platforma-treningowa-1.jpg",
-      "src/assets/platforma-treningowa-2.jpg",
-      "src/assets/platforma-treningowa-3.jpg",
+      platformaTreningowa1Img,
+      platformaTreningowa2Img,
+      platformaTreningowa3Img,
     ],
     year: "2024",
     link: "#",
@@ -74,7 +82,7 @@ export const projectsData: Project[] = [
       "System for finding cheap flights and sending promotional SMS notifications. Built with Python and Twilio.",
     tags: ["Python", "Twilio"],
     images: [
-      "src/assets/wyszukiwarka-lotow.png",
+      wyszukiwarkaLotowImg,
     ],
     year: "2024",
     link: "#",

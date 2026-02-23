@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { CursorOverlay } from "./components/CursorOverlay";
+import jaPhoto from "./assets/ja.png";
 import { TextReveal } from "./components/TextReveal";
 import { SocialSidebar } from "./components/SocialSidebar";
 import { NavSidebar } from "./components/NavSidebar";
@@ -74,7 +75,7 @@ function AppContent() {
           {/* Photo – large, right side on desktop */}
           <div className="hidden min-[1400px]:block absolute right-0 top-1/2 -translate-y-1/2 w-[42vw] max-w-[800px] z-0">
             <img
-              src="/src/assets/ja.png"
+              src={jaPhoto}
               alt="Grzegorz Śliwski"
               className="w-full h-auto object-contain grayscale-[0.2] hover:grayscale-0 transition-[filter] duration-[400ms] ease-in-out"
             />
@@ -82,7 +83,7 @@ function AppContent() {
           {/* Photo – above text on smaller screens */}
           <div className="min-[1400px]:hidden flex justify-center px-6">
             <img
-              src="/src/assets/ja.png"
+              src={jaPhoto}
               alt="Grzegorz Śliwski"
               className="w-full max-w-[280px] sm:max-w-[360px] md:max-w-[440px] h-auto object-contain grayscale-[0.2] hover:grayscale-0 transition-[filter] duration-[400ms] ease-in-out"
             />
