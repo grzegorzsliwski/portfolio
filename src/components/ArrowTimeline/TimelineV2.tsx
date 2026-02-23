@@ -211,7 +211,7 @@ export function TimelineV2({ items }: TimelineV2Props) {
   return (
     <section ref={sectionRef} className="relative w-full" style={sectionStyle}>
       {/* Sticky wrapper – pinned to viewport, pushed up to avoid sidebar */}
-      <div className="sticky top-0 h-screen flex items-start pt-[20vh] overflow-hidden">
+      <div className="sticky top-0 h-screen flex items-start pt-[10vh] overflow-hidden">
         {/* Track with arrow cards */}
         <div
           ref={trackRef}

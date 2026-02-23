@@ -195,7 +195,7 @@ export function TextReveal(props: TextRevealProps) {
 
   const id = useId();
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const { pos, radius, registerTarget, unregisterTarget, setHovering } =
+  const { pos, radius, isTouchDevice, registerTarget, unregisterTarget, setHovering } =
     useCursor();
 
   const isLocalHoverRef = useRef(false);
@@ -293,20 +293,22 @@ export function TextReveal(props: TextRevealProps) {
           </span>
         )}
 
-        {/* Warstwa BACK – odsłaniana kursorem */}
-        <span
-          className="z-10 select-none pointer-events-none bg-green-400"
-          style={{
-            paddingBlock: "0.25em",
-            marginBlock: "-0.25em",
-            clipPath: `circle(${radius - 2}px at ${localX}px ${localY}px)`,
-            color: "black",
-            WebkitTextFillColor: "black",
-          }}
-          aria-hidden="true"
-        >
-          {revealed}
-        </span>
+        {/* Warstwa BACK – odsłaniana kursorem (tylko desktop) */}
+        {!isTouchDevice && (
+          <span
+            className="z-10 select-none pointer-events-none bg-green-400"
+            style={{
+              paddingBlock: "0.25em",
+              marginBlock: "-0.25em",
+              clipPath: `circle(${radius - 2}px at ${localX}px ${localY}px)`,
+              color: "black",
+              WebkitTextFillColor: "black",
+            }}
+            aria-hidden="true"
+          >
+            {revealed}
+          </span>
+        )}
       </div>
     </div>
   );

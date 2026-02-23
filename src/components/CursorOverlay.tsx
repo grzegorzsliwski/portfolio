@@ -24,6 +24,8 @@ interface CursorContextValue {
   radius: number;
   /** Czy kursor aktualnie najechał na jakikolwiek TextReveal */
   isHovering: boolean;
+  /** Czy urządzenie jest dotykowe (telefon / tablet) */
+  isTouchDevice: boolean;
   /** Rejestruje element TextReveal, aby CursorOverlay mógł sprawdzać hover */
   registerTarget: (id: string) => void;
   /** Wyrejestrowuje element TextReveal */
@@ -96,7 +98,55 @@ interface CursorOverlayProps {
  * Udostępnia kontekst (CursorContext) do komponentów TextReveal,
  * dzięki czemu mogą one reagować na pozycję kursora.
  */
+/** Noop context dla urządzeń dotykowych – żadne listenery, żadne animacje */
+const noopCtxValue: CursorContextValue = {
+  pos: { x: -100, y: -100 },
+  radius: DEFAULT_RADIUS,
+  isHovering: false,
+  isTouchDevice: true,
+  registerTarget: () => {},
+  unregisterTarget: () => {},
+  setHovering: () => {},
+  setSidebarHover: () => {},
+};
+
+/** Sprawdza czy urządzenie jest dotykowe (telefon / tablet) */
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(pointer: coarse)").matches
+      : false
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    setIsTouch(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsTouch(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  return isTouch;
+}
+
 export function CursorOverlay({ children }: CursorOverlayProps) {
+  const isTouchDevice = useIsTouchDevice();
+
+  // Na urządzeniach dotykowych zwracamy dzieci z noop kontekstem
+  // – brak listenerów, brak animacji, brak kółka kursora
+  if (isTouchDevice) {
+    return (
+      <CursorContext.Provider value={noopCtxValue}>
+        <div className="min-h-screen">{children}</div>
+      </CursorContext.Provider>
+    );
+  }
+
+  return <CursorOverlayDesktop>{children}</CursorOverlayDesktop>;
+}
+
+/** Pełna logika kursora – renderowana tylko na desktopie */
+function CursorOverlayDesktop({ children }: CursorOverlayProps) {
   const [pos, setPos] = useState<CursorPos>({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
   const [isOverSidebar, setIsOverSidebar] = useState(false);
@@ -139,7 +189,6 @@ export function CursorOverlay({ children }: CursorOverlayProps) {
   // Nasłuchujemy ruchu myszki na całym dokumencie
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // pageX/pageY uwzględnia scroll
       setPos({ x: e.clientX, y: e.clientY });
       if (!visible) setVisible(true);
     };
@@ -180,6 +229,7 @@ export function CursorOverlay({ children }: CursorOverlayProps) {
     pos,
     radius: animatedRadius,
     isHovering,
+    isTouchDevice: false,
     registerTarget,
     unregisterTarget,
     setHovering,
@@ -188,15 +238,9 @@ export function CursorOverlay({ children }: CursorOverlayProps) {
 
   return (
     <CursorContext.Provider value={ctxValue}>
-      {/* Ukrywamy domyślny kursor na całej stronie */}
       <div className="cursor-none min-h-screen">
         {children}
 
-        {/*
-          Kółko kursora – fixed, pointer-events-none,
-          więc nie blokuje interakcji ze stroną.
-          Transition na width/height/margin zapewnia płynne powiększanie.
-        */}
         <div
           className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full bg-green-400"
           style={{

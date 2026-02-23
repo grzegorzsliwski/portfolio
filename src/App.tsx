@@ -4,6 +4,7 @@ import { CursorOverlay } from "./components/CursorOverlay";
 import { TextReveal } from "./components/TextReveal";
 import { SocialSidebar } from "./components/SocialSidebar";
 import { NavSidebar } from "./components/NavSidebar";
+import { MobileDrawer } from "./components/MobileDrawer";
 import { StartScreen } from "./components/StartScreen";
 // import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
@@ -33,6 +34,7 @@ function AppContent() {
         <>
           <SocialSidebar />
           <NavSidebar />
+          <MobileDrawer />
         </>
       )}
       {started && <div className="flex flex-col items-center bg-[#0a0a0a]" style={{ overflowX: "clip" }}>
