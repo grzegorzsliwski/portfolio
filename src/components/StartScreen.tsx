@@ -67,7 +67,6 @@ export function StartScreen({ onStart }: StartScreenProps) {
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [exiting, setExiting] = useState(false);
-  const startTime = useRef(Date.now());
   const imagesReady = useRef(false);
   const minTimeReady = useRef(false);
   const { t } = useI18n();
