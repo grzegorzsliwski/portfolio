@@ -34,6 +34,7 @@ function ArrowCard({
   item,
   index,
   fillProgress,
+  borderRef,
   theme,
   isSmall,
   onOpen,
@@ -42,6 +43,7 @@ function ArrowCard({
   item: TimelineV2Item;
   index: number;
   fillProgress: number;
+  borderRef?: (el: HTMLDivElement | null) => void;
   theme: typeof DARK;
   isSmall: boolean;
   onOpen: () => void;
@@ -97,12 +99,12 @@ function ArrowCard({
     >
       {/* Arrow shape – border with green fill from left to right */}
       <div
+        ref={borderRef}
         className="absolute inset-0"
         style={{
           clipPath,
           background:
             `linear-gradient(to right, ${theme.accent} ${fillProgress * 100}%, ${theme.border} ${fillProgress * 100}%)`,
-          transition: "background 0.15s ease-out",
         }}
       />
 
@@ -301,8 +303,7 @@ interface TimelineV2Props {
 export function TimelineV2({ items }: TimelineV2Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [trackWidth, setTrackWidth] = useState(0);
+  const cardBorderRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [isSmall, setIsSmall] = useState(window.innerWidth < 1024);
   const [openItem, setOpenItem] = useState<TimelineV2Item | null>(null);
   const rafId = useRef(0);
@@ -310,11 +311,15 @@ export function TimelineV2({ items }: TimelineV2Props) {
   const { lang } = useI18n();
   const theme = isLight ? LIGHT : DARK;
 
+  // Keep mutable refs for scroll-driven values to avoid re-renders
+  const progressRef = useRef(0);
+  const trackWidthRef = useRef(0);
+
   // ── Measure track width ──────────────────────────────────────────────────
   useEffect(() => {
     function measure() {
       if (trackRef.current) {
-        setTrackWidth(trackRef.current.scrollWidth);
+        trackWidthRef.current = trackRef.current.scrollWidth;
       }
       setIsSmall(window.innerWidth < 1024);
     }
@@ -323,7 +328,31 @@ export function TimelineV2({ items }: TimelineV2Props) {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // ── Map vertical scroll → horizontal progress (same as Timeline v1) ─────
+  // ── Direct-DOM update: transform + card fills (no React re-render) ──────
+  const applyScrollFrame = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const maxTranslate = Math.max(0, trackWidthRef.current - window.innerWidth + 80);
+    const tx = -progressRef.current * maxTranslate;
+    track.style.transform = `translate3d(${tx}px, 0, 0)`;
+
+    // Update each card's green border fill via direct style mutation
+    const count = items.length;
+    cardBorderRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const cardStart = i / count;
+      const cardEnd = (i + 1) / count;
+      const fill = Math.max(0, Math.min(1,
+        (progressRef.current - cardStart) / (cardEnd - cardStart)
+      ));
+      const pct = fill * 100;
+      el.style.background =
+        `linear-gradient(to right, ${theme.accent} ${pct}%, ${theme.border} ${pct}%)`;
+    });
+  }, [items.length, theme.accent, theme.border]);
+
+  // ── Map vertical scroll → horizontal progress ───────────────────────────
   const handleScroll = useCallback(() => {
     cancelAnimationFrame(rafId.current);
     rafId.current = requestAnimationFrame(() => {
@@ -335,14 +364,15 @@ export function TimelineV2({ items }: TimelineV2Props) {
       const scrollableDistance = sectionHeight - viewportHeight;
 
       if (scrollableDistance <= 0) {
-        setScrollProgress(0);
-        return;
+        progressRef.current = 0;
+      } else {
+        const raw = -rect.top / scrollableDistance;
+        progressRef.current = Math.max(0, Math.min(1, raw));
       }
 
-      const scrollRaw = -rect.top / scrollableDistance;
-      setScrollProgress(Math.max(0, Math.min(1, scrollRaw)));
+      applyScrollFrame();
     });
-  }, []);
+  }, [applyScrollFrame]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -352,16 +382,6 @@ export function TimelineV2({ items }: TimelineV2Props) {
       cancelAnimationFrame(rafId.current);
     };
   }, [handleScroll]);
-
-  // ── Compute translateX ───────────────────────────────────────────────────
-  const maxTranslate = Math.max(0, trackWidth - window.innerWidth + 80);
-  const translateX = -scrollProgress * maxTranslate;
-
-  const trackStyle: CSSProperties = {
-    transform: `translate3d(${translateX}px, 0, 0)`,
-    transition: "transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-    willChange: "transform",
-  };
 
   // Section height = viewport × SCROLL_SCREENS → creates vertical scroll room
   const sectionStyle: CSSProperties = {
@@ -376,28 +396,25 @@ export function TimelineV2({ items }: TimelineV2Props) {
         <div
           ref={trackRef}
           className="flex flex-row items-stretch gap-4 lg:gap-16"
-          style={{ ...trackStyle, paddingLeft: isSmall ? "1rem" : "max(2rem, 8vw)", paddingRight: isSmall ? "1rem" : "4rem" }}
+          style={{
+            willChange: "transform",
+            paddingLeft: isSmall ? "1rem" : "max(2rem, 8vw)",
+            paddingRight: isSmall ? "1rem" : "4rem",
+          }}
         >
-          {items.map((item, i) => {
-            // Each card fills sequentially across the total scroll progress
-            const cardStart = i / items.length;
-            const cardEnd = (i + 1) / items.length;
-            const cardFill = Math.max(0, Math.min(1,
-              (scrollProgress - cardStart) / (cardEnd - cardStart)
-            ));
-            return (
+          {items.map((item, i) => (
               <ArrowCard
                 key={item.title}
                 item={item}
                 index={i}
-                fillProgress={cardFill}
+                fillProgress={0}
+                borderRef={(el) => { cardBorderRefs.current[i] = el; }}
                 theme={theme}
                 isSmall={isSmall}
                 onOpen={() => setOpenItem(item)}
                 seeMoreLabel={lang === "pl" ? "Zobacz więcej" : "See more"}
               />
-            );
-          })}
+          ))}
         </div>
       </div>
 
