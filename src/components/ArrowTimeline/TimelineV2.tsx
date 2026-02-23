@@ -158,23 +158,16 @@ function ArrowCard({
         <span className={`text-xs lg:text-sm font-semibold uppercase tracking-widest ${theme.accent === "#4ade80" ? "text-green-400" : "text-green-600"}`}>{item.date}</span>
         <h3 className={`text-xl lg:text-5xl font-bold ${theme.title} leading-snug`}>{item.title}</h3>
 
-        {/* Description: full on desktop, faded on mobile */}
+        {/* Description */}
         {item.description && (
           isSmall ? (
-            <div className="relative min-h-0 max-h-[25vh] overflow-hidden">
-              <p className={`text-sm ${theme.desc} leading-relaxed`}>{item.description}</p>
-              {/* Fade if description itself is clipped */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
-                style={{ background: `linear-gradient(to bottom, transparent, ${theme.fill})` }}
-              />
-            </div>
+            <p className={`text-sm ${theme.desc} leading-relaxed`}>{item.description}</p>
           ) : (
             <p className={`text-xl ${theme.desc} leading-relaxed max-w-lg`}>{item.description}</p>
           )
         )}
 
-        {/* Tags: hidden on mobile (shown in overlay via See more), visible on desktop */}
+        {/* Tags */}
         {!isSmall && (
           <div className="flex flex-wrap mt-2 gap-3">
             {item.tags.filter(Boolean).map((tag) => (
@@ -189,8 +182,7 @@ function ArrowCard({
           </div>
         )}
 
-        {/* Mobile: tags shown inline only when they fit */}
-        {isSmall && !isOverflowing && (
+        {isSmall && (
           <div className="flex flex-wrap mt-2 gap-1.5">
             {item.tags.filter(Boolean).map((tag) => (
               <span
