@@ -658,10 +658,10 @@ button:active {
 
 /* ── Footer responsive ── */
 
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1350px) and (min-width: 769px) {
   .footer__links-col {
     grid-template-columns: repeat(2, minmax(10rem, auto));
-    grid-template-rows: repeat(3, auto);
+    grid-template-rows: repeat(2, auto);
   }
 }
 

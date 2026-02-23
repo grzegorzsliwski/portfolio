@@ -72,8 +72,7 @@ function ArrowCard({
       className="group relative flex-shrink-0 transition-transform duration-300 ease-out hover:scale-[1.03] overflow-hidden"
       style={{
         width: isSmall ? "clamp(260px, 82vw, 420px)" : "720px",
-        height: isSmall ? "calc(100svh - 12vh)" : undefined,
-        minHeight: isSmall ? undefined : 500,
+        height: isSmall ? "calc(100svh - 22vh)" : "calc(100svh - 20vh)",
         // Negative margin so arrows overlap and connect visually
         marginLeft: index === 0 ? 0 : isSmall ? "-1.5rem" : "-2.8rem",
       }}
@@ -114,7 +113,6 @@ function ArrowCard({
       <div
         className="relative z-10 flex flex-col h-full py-4 gap-y-3 lg:py-14 lg:gap-y-6"
         style={{
-          minHeight: isSmall ? undefined : 500,
           justifyContent: isSmall ? "flex-start" : "center",
           paddingLeft: isSmall ? (index === 0 ? "1.25rem" : "2.5rem") : "4rem",
           paddingRight: isSmall ? "2.5rem" : "4rem",
@@ -140,20 +138,25 @@ function ArrowCard({
           )
         )}
 
-        {/* Tags: hidden on mobile (shown in overlay), visible on desktop */}
-        {!isSmall && (
-          <div className="flex flex-wrap gap-3 mt-2">
-            {item.tags.filter(Boolean).map((tag) => (
-              <span
-                key={tag}
-                className={`text-base px-4 py-1.5 rounded-full border ${theme.badgeBorder} ${theme.badgeText}
-                           ${theme.badgeBg} backdrop-blur-sm`}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+        {/* Tags */}
+        <div className={`flex flex-wrap mt-2 ${isSmall ? "gap-1.5 max-h-[30vh] overflow-hidden relative" : "gap-3"}`}>
+          {item.tags.filter(Boolean).map((tag) => (
+            <span
+              key={tag}
+              className={`rounded-full border ${theme.badgeBorder} ${theme.badgeText}
+                         ${theme.badgeBg} backdrop-blur-sm ${isSmall ? "text-xs px-2.5 py-1" : "text-base px-4 py-1.5"}`}
+            >
+              {tag}
+            </span>
+          ))}
+          {/* Fade out if tags overflow on mobile */}
+          {isSmall && (
+            <div
+              className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
+              style={{ background: `linear-gradient(to bottom, transparent, ${theme.fill})` }}
+            />
+          )}
+        </div>
 
         {/* Mobile: "See more" button – styled like action-btn */}
         {isSmall && (item.description || item.tags.some(Boolean)) && (

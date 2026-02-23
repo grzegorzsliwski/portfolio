@@ -143,7 +143,7 @@ export function Contact() {
 
   return (
     <footer id="contact" className="footer">
-      <div className="max-w-[80rem] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-16 items-start">
+      <div className="max-w-[80rem] mx-auto px-6 md:pl-20 md:pr-32 xl:pl-12 xl:pr-12 grid grid-cols-1 md:grid-cols-[auto_auto] md:justify-between gap-8 xl:gap-16 items-start">
         {/* Left: social links in 2x2 grid */}
         <nav
           className="footer__links-col"
