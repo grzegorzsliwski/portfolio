@@ -33,8 +33,6 @@ const LIGHT = {
 function ArrowCard({
   item,
   index,
-  fillProgress,
-  borderRef,
   theme,
   isSmall,
   onOpen,
@@ -42,8 +40,6 @@ function ArrowCard({
 }: {
   item: TimelineV2Item;
   index: number;
-  fillProgress: number;
-  borderRef?: (el: HTMLDivElement | null) => void;
   theme: typeof DARK;
   isSmall: boolean;
   onOpen: () => void;
@@ -97,14 +93,14 @@ function ArrowCard({
         marginLeft: index === 0 ? 0 : isSmall ? "-1.5rem" : "-2.8rem",
       }}
     >
-      {/* Arrow shape – border with green fill from left to right */}
+      {/* Arrow shape – border with green fill from left to right.
+          --fill is updated directly via JS to avoid React re-renders. */}
       <div
-        ref={borderRef}
         className="absolute inset-0"
         style={{
           clipPath,
           background:
-            `linear-gradient(to right, ${theme.accent} ${fillProgress * 100}%, ${theme.border} ${fillProgress * 100}%)`,
+            `linear-gradient(to right, ${theme.accent} var(--fill, 0%), ${theme.border} var(--fill, 0%))`,
         }}
       />
 
@@ -303,7 +299,6 @@ interface TimelineV2Props {
 export function TimelineV2({ items }: TimelineV2Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const cardBorderRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [isSmall, setIsSmall] = useState(window.innerWidth < 1024);
   const [openItem, setOpenItem] = useState<TimelineV2Item | null>(null);
   const rafId = useRef(0);
@@ -311,15 +306,23 @@ export function TimelineV2({ items }: TimelineV2Props) {
   const { lang } = useI18n();
   const theme = isLight ? LIGHT : DARK;
 
-  // Keep mutable refs for scroll-driven values to avoid re-renders
-  const progressRef = useRef(0);
+  // Mutable refs – avoid re-renders, avoid layout-thrashing reads in scroll
+  const targetProgress = useRef(0);   // raw target from scroll position
+  const renderedProgress = useRef(0); // currently rendered (lerped) value
   const trackWidthRef = useRef(0);
+  const sectionTopRef = useRef(0);    // cached offsetTop
+  const sectionHeightRef = useRef(0); // cached offsetHeight
+  const isAnimating = useRef(false);
 
-  // ── Measure track width ──────────────────────────────────────────────────
+  // ── Measure dimensions (no layout reads during scroll) ───────────────────
   useEffect(() => {
     function measure() {
       if (trackRef.current) {
         trackWidthRef.current = trackRef.current.scrollWidth;
+      }
+      if (sectionRef.current) {
+        sectionTopRef.current = sectionRef.current.offsetTop;
+        sectionHeightRef.current = sectionRef.current.offsetHeight;
       }
       setIsSmall(window.innerWidth < 1024);
     }
@@ -328,51 +331,66 @@ export function TimelineV2({ items }: TimelineV2Props) {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // ── Direct-DOM update: transform + card fills (no React re-render) ──────
-  const applyScrollFrame = useCallback(() => {
+  // ── Render loop: lerp toward target for silky momentum tail ──────────────
+  const renderLoop = useCallback(() => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track) { isAnimating.current = false; return; }
 
-    const maxTranslate = Math.max(0, trackWidthRef.current - window.innerWidth + 80);
-    const tx = -progressRef.current * maxTranslate;
-    track.style.transform = `translate3d(${tx}px, 0, 0)`;
+    // Lerp: fast catch-up (0.25) keeps it responsive, smooths iOS momentum tail
+    const prev = renderedProgress.current;
+    const next = prev + (targetProgress.current - prev) * 0.25;
 
-    // Update each card's green border fill via direct style mutation
+    // Stop the loop when close enough (saves battery)
+    if (Math.abs(next - targetProgress.current) < 0.0001) {
+      renderedProgress.current = targetProgress.current;
+    } else {
+      renderedProgress.current = next;
+    }
+
+    // Apply transform
+    const maxTx = Math.max(0, trackWidthRef.current - window.innerWidth + 80);
+    track.style.transform = `translate3d(${-renderedProgress.current * maxTx}px, 0, 0)`;
+
+    // Update card border fills via CSS custom property (one write per card)
     const count = items.length;
-    cardBorderRefs.current.forEach((el, i) => {
-      if (!el) return;
+    const p = renderedProgress.current;
+    for (let i = 0; i < count; i++) {
+      const el = track.children[i] as HTMLElement | undefined;
+      if (!el) continue;
       const cardStart = i / count;
       const cardEnd = (i + 1) / count;
-      const fill = Math.max(0, Math.min(1,
-        (progressRef.current - cardStart) / (cardEnd - cardStart)
-      ));
-      const pct = fill * 100;
-      el.style.background =
-        `linear-gradient(to right, ${theme.accent} ${pct}%, ${theme.border} ${pct}%)`;
-    });
-  }, [items.length, theme.accent, theme.border]);
+      const fill = Math.max(0, Math.min(1, (p - cardStart) / (cardEnd - cardStart)));
+      el.style.setProperty("--fill", `${fill * 100}%`);
+    }
 
-  // ── Map vertical scroll → horizontal progress ───────────────────────────
+    // Keep looping while not converged
+    if (renderedProgress.current !== targetProgress.current) {
+      rafId.current = requestAnimationFrame(renderLoop);
+    } else {
+      isAnimating.current = false;
+    }
+  }, [items.length]);
+
+  // ── Scroll handler: cheap read only (no getBoundingClientRect) ───────────
   const handleScroll = useCallback(() => {
-    cancelAnimationFrame(rafId.current);
-    rafId.current = requestAnimationFrame(() => {
-      if (!sectionRef.current) return;
+    const scrollY = window.scrollY || window.pageYOffset;
+    const sH = sectionHeightRef.current;
+    const vH = window.innerHeight;
+    const scrollable = sH - vH;
 
-      const rect = sectionRef.current.getBoundingClientRect();
-      const sectionHeight = sectionRef.current.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const scrollableDistance = sectionHeight - viewportHeight;
+    if (scrollable <= 0) {
+      targetProgress.current = 0;
+    } else {
+      const raw = (scrollY - sectionTopRef.current) / scrollable;
+      targetProgress.current = Math.max(0, Math.min(1, raw));
+    }
 
-      if (scrollableDistance <= 0) {
-        progressRef.current = 0;
-      } else {
-        const raw = -rect.top / scrollableDistance;
-        progressRef.current = Math.max(0, Math.min(1, raw));
-      }
-
-      applyScrollFrame();
-    });
-  }, [applyScrollFrame]);
+    // Kick the render loop if it isn't running
+    if (!isAnimating.current) {
+      isAnimating.current = true;
+      rafId.current = requestAnimationFrame(renderLoop);
+    }
+  }, [renderLoop]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -407,8 +425,6 @@ export function TimelineV2({ items }: TimelineV2Props) {
                 key={item.title}
                 item={item}
                 index={i}
-                fillProgress={0}
-                borderRef={(el) => { cardBorderRefs.current[i] = el; }}
                 theme={theme}
                 isSmall={isSmall}
                 onOpen={() => setOpenItem(item)}
