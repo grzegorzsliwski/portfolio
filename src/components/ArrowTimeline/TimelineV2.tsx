@@ -67,7 +67,7 @@ function ArrowCard({
       className="group relative flex-shrink-0 transition-transform duration-300 ease-out hover:scale-[1.03] overflow-hidden"
       style={{
         width: isSmall ? "clamp(260px, 82vw, 420px)" : "720px",
-        minHeight: isSmall ? 350 : 500,
+        minHeight: isSmall ? "min(350px, calc(100svh - 14vh))" : 500,
         // Negative margin so arrows overlap and connect visually
         marginLeft: index === 0 ? 0 : isSmall ? "-1.5rem" : "-2.8rem",
       }}
@@ -108,7 +108,7 @@ function ArrowCard({
       <div
         className="relative z-10 flex flex-col justify-center h-full py-8 gap-y-4 lg:py-14 lg:gap-y-6"
         style={{
-          minHeight: isSmall ? 350 : 500,
+          minHeight: isSmall ? "min(350px, calc(100svh - 14vh))" : 500,
           paddingLeft: isSmall ? (index === 0 ? "1.25rem" : "2.5rem") : "4rem",
           paddingRight: isSmall ? "2.5rem" : "4rem",
         }}
