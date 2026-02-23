@@ -174,7 +174,7 @@ function AppContent() {
         {/* ── Sekcja PROJEKTY ─────────────────────────────────────── */}
         {/* <Projects /> */}
         {/* ── Sekcja projektowa tymczasowa ─────────────────────────── */}        
-        <section className="relative w-full py-32 mb-32">
+        <section className="relative w-full py-16 mb-8 md:py-32 md:mb-16">
           <div className="max-w-[80rem] mx-auto px-6 md:px-24">
                         <TextReveal
               className="block pb-8"
@@ -207,7 +207,7 @@ function AppContent() {
         </section>
 
         {/* ── Sekcja końcowa SCROLL REVEAL ─────────────────────────── */}
-        <section className="relative w-full py-32 mb-32">
+        <section className="relative w-full py-16 mb-8 md:py-32 md:mb-16">
           <div className="max-w-[80rem] mx-auto px-6 md:px-24">
             <TextReveal
               className="block pb-8"

@@ -2,6 +2,7 @@ import { useRef, useState, useCallback, useEffect, type CSSProperties, type Mous
 import { type TimelineV2Item } from "./timelineV2Data";
 import { useTheme } from "../../ThemeContext";
 import { useI18n } from "../../I18nContext";
+import { useCursor } from "../CursorOverlay";
 
 // How many "screens" of vertical scroll we map onto the full track width */
 const SCROLL_SCREENS = 3;
@@ -237,22 +238,26 @@ function DetailOverlay({
   onClose: () => void;
   closeLabel: string;
 }) {
+  const { setSidebarHover } = useCursor();
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.body.classList.add("timeline-overlay-open");
+    setSidebarHover(true);
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handleKey);
     return () => {
       document.body.style.overflow = "";
       document.body.classList.remove("timeline-overlay-open");
+      setSidebarHover(false);
       document.removeEventListener("keydown", handleKey);
     };
-  }, [onClose]);
+  }, [onClose, setSidebarHover]);
 
   return (
     <div
       className="fixed inset-0 z-[10000] flex flex-col animate-[fadeIn_0.25s_ease]"
-      style={{ background: theme.fill === "#0a0a0a" ? "rgba(10,10,10,0.97)" : "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)" }}
+      style={{ background: theme.fill === "#0a0a0a" ? "rgba(10,10,10,0.97)" : "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", cursor: "auto" }}
     >
       {/* Close button */}
       <button
