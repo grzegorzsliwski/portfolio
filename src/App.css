@@ -584,6 +584,7 @@ button:active {
   flex-direction: column;
   gap: 1.25rem;
   min-width: 0;
+  cursor: auto;
 }
 
 .footer__contact-row {

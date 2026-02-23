@@ -162,10 +162,10 @@ const en: Translations = {
     {
       id: "career-2",
       date: "2024",
-      title: "ITM Code — Mobile Developer Intern",
+      title: "Contract Collaboration – Tonerico",
       description:
-        "Built a networking application for Kielce Technology Park.",
-      tags: ["TypeScript", "React Native", "Gitlab", "CSS"],
+        "I created a tool in Google Sheets using Google Apps Script for recording sales data, analyzing it, and generating reports.",
+      tags: ["Google Sheets", "Google Apps Script"],
     },
     {
       id: "career-3",
@@ -319,6 +319,14 @@ const pl: Translations = {
     },
     {
       id: "career-3",
+      date: "2024",
+      title: "Współpraca zleceniowa – Tonerico",
+      description:
+        "Stworzyłem w Arkuszach Google, przy użyciu Google Apps Script, narzędzie służące do zapisywania danych sprzedażowych, ich analizowania oraz tworzenia raportów.",
+      tags: ["Google Sheets", "Google Apps Script"],
+    },
+    {
+      id: "career-4",
       date: "2025",
       title: "LEOCODE - młodszy programista fullstack",
       description:
@@ -326,7 +334,7 @@ const pl: Translations = {
       tags: ["TypeScript", "Next.js", "Three.js", "PostgreSQL", "MinIO", "Redis", "REST API"],
     },
     {
-      id: "career-4",
+      id: "career-5",
       date: "2025",
       title: "ALEATEX - programista fullstack",
       description:
@@ -342,7 +350,7 @@ const pl: Translations = {
       tags: [""],
     },
     {
-      id: "career-5",
+      id: "career-6",
       date: "teraz",
       title: "Współpraca z Twoim przedsiębiorstwem?",
       description:
