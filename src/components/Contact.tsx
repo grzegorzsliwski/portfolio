@@ -19,7 +19,7 @@ const SOCIAL_LINKS: FooterLink[] = [
 
 const EMAIL = "grzegorzsliwski@gmail.com";
 const PHONE = "+48 503 600 749";
-const CV_URL = "/cv.pdf";
+const CV_URL = "/grzegorz-sliwski-resume.pdf";
 
 // ─── Arrow icon for links ────────────────────────────────────────────────────
 
