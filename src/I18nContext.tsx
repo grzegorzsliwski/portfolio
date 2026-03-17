@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react";
 
 // ─── Typy ────────────────────────────────────────────────────────────────────
 
@@ -47,7 +53,6 @@ interface Translations {
   footerCvLabel: string;
   footerCopied: string;
   footerOpenCv: string;
-
 
   // CTA
   ctaText: string;
@@ -98,10 +103,10 @@ const en: Translations = {
   aboutLabel: "About Me",
 
   scrollReveal1:
-    "I'm a data engineer and developer. I create modern web and mobile applications based on React and TypeScript.",
+    "I'm a data engineering graduate and fullstack developer with 1+ year of experience building modern web and mobile applications with React and TypeScript.",
   scrollReveal1Highlight: ["React", "TypeScript"],
   scrollReveal2:
-    "I design and develop both frontend and backend, building scalable architectures and integrations based on various communication models.",
+    "I focus on creating scalable, maintainable systems - from intuitive user interfaces to robust backend architectures.",
   aboutRevealed1:
     "I'm 23 years old. Besides coding, I love traveling with my fiancée — discovering new places, cultures and cuisines together.",
   aboutRevealed2:
@@ -109,14 +114,13 @@ const en: Translations = {
   aboutHoverHint: "Hover over text to discover more about me",
 
   experienceLabel: "Experience",
-  experienceSubheading:
-    "My professional journey and the milestones.",
+  experienceSubheading: "My professional journey and the milestones.",
 
   projectsLabel: "Projects",
-  projectsSubheading:
-    "Selected personal projects.",
-  
-  projectText1: "Beyond work experience gained during my studies, I have also pursued personal projects — including a cheap flight alert system with SMS notifications, a strength training logger app, a transfer learning model for detecting pathological masses in X-ray images, and a tutoring platform startup I'm currently building.",
+  projectsSubheading: "Selected personal projects.",
+
+  projectText1:
+    "Beyond work experience gained during my studies, I have also pursued personal projects — including a cheap flight alert system with SMS notifications, a strength training logger app, a transfer learning model for detecting pathological masses in X-ray images, and a tutoring platform startup I'm currently building.",
   projectText1Highlight: ["personal", "projects"],
 
   contactLabel: "Connect",
@@ -127,7 +131,6 @@ const en: Translations = {
   footerCvLabel: "Resume",
   footerCopied: "Copied!",
   footerOpenCv: "Open CV",
-
 
   ctaText: "Ready to collaborate? Let's talk about your next project.",
   ctaHighlight: "your",
@@ -157,9 +160,17 @@ const en: Translations = {
       title: "siudak.com — Backend Developer Intern",
       description:
         "Developed backend features for SelfExpo, with a focus on self-serviced pavilion registration.",
-      tags: ["Next.js", "TypeScript", "MongoDB", "JWT", "Jest", "Github", "REST API"],
+      tags: [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "JWT",
+        "Jest",
+        "Github",
+        "REST API",
+      ],
     },
-        {
+    {
       id: "career-2",
       date: "2024",
       title: "ITM Code – internship as a mobile developer",
@@ -180,16 +191,31 @@ const en: Translations = {
       date: "2025",
       title: "LEOCODE — Junior Fullstack Developer",
       description:
-        "Supported the LEOCODE team in developing the Human Body Universe web app (AnatoMy project) — responsible for importing complex tree-structured metadata with associated GLB models to the database, rendering and mapping the structure on the page, advancing the visual layer, and implementing a role-based access control system.",
-      tags: ["TypeScript", "Next.js", "Three.js", "PostgreSQL", "MinIO", "Redis", "REST API"],
+        "Supported the LEOCODE team in developing the Human Body Universe web app (AnatoMy project) — responsible for importing complex metadata with associated GLB models to the database, rendering the structure on the page, advancing the visual layer, and implementing a role-based access control system.",
+      tags: [
+        "TypeScript",
+        "Next.js",
+        "Three.js",
+        "PostgreSQL",
+        "MinIO",
+        "Redis",
+        "REST API",
+      ],
     },
     {
       id: "career-5",
       date: "2025",
       title: "ALEATEX — Fullstack Developer",
       description:
-        "Participated in building an MVP for madc.ai. Created microservices and implemented numerous external integrations to provide transparency insights on project requirements.",
-      tags: ["TypeScript", "React", "PostgreSQL", "Supabase", "Kubernetes", "gRPC"],
+        "I contributed to building the MVP for madc.ai, a project aimed at creating a system that enhances transparency in project requirements. I developed microservices and implemented multiple external integrations to deliver clear insights into requirements.",
+      tags: [
+        "TypeScript",
+        "React",
+        "PostgreSQL",
+        "Supabase",
+        "Kubernetes",
+        "gRPC",
+      ],
     },
     {
       id: "edu-2",
@@ -203,8 +229,7 @@ const en: Translations = {
       id: "career-6",
       date: "now",
       title: "A collaboration with your company?",
-      description:
-        "",
+      description: "",
       tags: [""],
     },
   ],
@@ -256,10 +281,10 @@ const pl: Translations = {
   aboutLabel: "O mnie",
 
   scrollReveal1:
-    "Jestem inżynierem danych i developerem. Tworzę nowoczesne aplikacje webowe i mobilne w oparciu o React oraz TypeScript.",
-    scrollReveal1Highlight: ["React", "TypeScript."],
+    "Jestem absolwentem inżynierii danych oraz fullstack developerem z ponad rocznym doświadczeniem w tworzeniu nowoczesnych aplikacji webowych i mobilnych z wykorzystaniem React i TypeScript.",
+  scrollReveal1Highlight: ["React", "TypeScript."],
   scrollReveal2:
-    "Projektuję i rozwijam zarówno frontend, jak i backend, budując skalowalne architektury oraz integracje oparte na różnych modelach komunikacji.",
+    "Skupiam się na budowaniu skalowalnych i łatwych w utrzymaniu systemów – od intuicyjnych interfejsów użytkownika po solidne architektury backendowe.",
   aboutRevealed1:
     "Mam 23 lata. Poza programowaniem uwielbiam podróżować z moją narzeczoną — odkrywać nowe miejsca, kultury i kuchnie świata.",
   aboutRevealed2:
@@ -267,14 +292,13 @@ const pl: Translations = {
   aboutHoverHint: "Najedź na tekst, aby odkryć więcej o mnie",
 
   experienceLabel: "Doświadczenie",
-  experienceSubheading:
-    "Moja droga zawodowa i kamienie milowe.",
+  experienceSubheading: "Moja droga zawodowa i kamienie milowe.",
 
   projectsLabel: "Projekty",
-  projectsSubheading:
-    "Wybrane projekty personalne.",
+  projectsSubheading: "Wybrane projekty personalne.",
 
-  projectText1: "Oprócz doświadczenia zawodowego nabytego podczas studiów, realizowałem również projekty personalne — m.in. system znajdowania tanich lotów z powiadomieniami SMS, aplikację do zapisywania treningu siłowego, model uczenia transferowego do detekcji mas patologicznych na zdjęciach rentgenowskich, a obecnie pracuję nad startupem — platformą do korepetycji.",
+  projectText1:
+    "Oprócz doświadczenia zawodowego nabytego podczas studiów, realizowałem również projekty personalne — m.in. system znajdowania tanich lotów z powiadomieniami SMS, aplikację do zapisywania treningu siłowego, model uczenia transferowego do detekcji mas patologicznych na zdjęciach rentgenowskich, a obecnie pracuję nad startupem — platformą do korepetycji.",
   projectText1Highlight: ["projekty", "personalne"],
 
   contactLabel: "Kontakt",
@@ -285,7 +309,6 @@ const pl: Translations = {
   footerCvLabel: "CV",
   footerCopied: "Skopiowano!",
   footerOpenCv: "Otwórz CV",
-
 
   ctaText: "Gotowy na współpracę? Porozmawiajmy o Twoim następnym projekcie.",
   ctaHighlight: "Twoim",
@@ -315,7 +338,15 @@ const pl: Translations = {
       title: "siudak.com - praktyki jako backend developer",
       description:
         "Tworzyłem funkcjonalności backendu dla przedsiębiorstwa SelfExpo, ze szczególnym naciskiem na rejestrację pawilonów samoobsługowych.",
-      tags: ["Next.js", "TypeScript", "MongoDB", "JWT", "Jest", "Github", "REST API"],
+      tags: [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "JWT",
+        "Jest",
+        "Github",
+        "REST API",
+      ],
     },
     {
       id: "career-2",
@@ -339,15 +370,30 @@ const pl: Translations = {
       title: "LEOCODE - młodszy programista fullstack",
       description:
         "Wspierałem zespół LEOCODE przy rozwoju aplikacji webowej Human Body Universe (projekt AnatoMy) – odpowiadałem m.in. za import zagnieżdżonych metadanych wraz z przypisanymi modelami GLB do bazy danych, ich wyświetlanie i odwzorowanie struktury na stronie, rozwój warstwy wizualnej aplikacji oraz implementację systemu ról i uprawnień użytkowników.",
-      tags: ["TypeScript", "Next.js", "Three.js", "PostgreSQL", "MinIO", "Redis", "REST API"],
+      tags: [
+        "TypeScript",
+        "Next.js",
+        "Three.js",
+        "PostgreSQL",
+        "MinIO",
+        "Redis",
+        "REST API",
+      ],
     },
     {
       id: "career-5",
       date: "2025",
       title: "ALEATEX - programista fullstack",
       description:
-        "Brałem udział w tworzeniu MVP aplikacji dla firmy madc.ai. Tworzyłem mikroserwisy, oraz implementowałem liczne integracje zewnętrzne w celu pozyskania informacji dla przedsiębiorstwa o wyniku przejrzystości założeń projektowych.",
-      tags: ["TypeScript", "React", "PostgreSQL", "Supabase", "Kubernetes", "gRPC"],
+        "Pracowałem przy tworzeniu MVP dla madc.ai, którego celem było zbudowanie systemu zwiększającego transparentność w zakresie wymagań projektowych. Tworzyłem mikroserwisy oraz integrowałem liczne zewnętrzne systemy, aby dostarczać przejrzyste insighty dotyczące wymagań.",
+      tags: [
+        "TypeScript",
+        "React",
+        "PostgreSQL",
+        "Supabase",
+        "Kubernetes",
+        "gRPC",
+      ],
     },
     {
       id: "edu-2",
@@ -361,8 +407,7 @@ const pl: Translations = {
       id: "career-6",
       date: "teraz",
       title: "Współpraca z Twoim przedsiębiorstwem?",
-      description:
-        "",
+      description: "",
       tags: [""],
     },
   ],
@@ -386,7 +431,8 @@ const pl: Translations = {
     {
       id: 3,
       title: "Praca dyplomowa",
-      subtitle: "Detekcja mas patologicznych z wykorzystaniem uczenia transferowego",
+      subtitle:
+        "Detekcja mas patologicznych z wykorzystaniem uczenia transferowego",
       description:
         "Model uczenia maszynowego stworzony z wykorzystaniem uczenia transferowego do wykrywania mas patologicznych w obrazach RTG z wykorzystaniem bibliotek Pythona takich jak TensorFlow i Keras.",
     },
@@ -437,9 +483,5 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     t: translations[lang],
   };
 
-  return (
-    <I18nContext.Provider value={value}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
