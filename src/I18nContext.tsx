@@ -218,6 +218,7 @@ const en: Translations = {
         "Supabase",
         "Kubernetes",
         "gRPC",
+        "Rust",
       ],
     },
     {
@@ -399,6 +400,7 @@ const pl: Translations = {
         "Supabase",
         "Kubernetes",
         "gRPC",
+        "Rust",
       ],
     },
     {
