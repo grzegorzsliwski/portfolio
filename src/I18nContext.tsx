@@ -157,7 +157,7 @@ const en: Translations = {
     {
       id: "career-1",
       date: "2024",
-      title: "siudak.com — Backend Developer Intern",
+      title: "siudak.com — internship as a backend developer",
       description:
         "Developed backend features for SelfExpo, with a focus on self-serviced pavilion registration.",
       tags: [
