@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useI18n } from "../I18nContext";
 import { useCursor } from "./CursorOverlay";
 
@@ -19,7 +19,8 @@ const SOCIAL_LINKS: FooterLink[] = [
 
 const EMAIL = "grzegorzsliwski@gmail.com";
 const PHONE = "+48 503 600 749";
-const CV_URL = "/grzegorz-sliwski-resume.pdf";
+const CV_URL_EN = "/grzegorz-sliwski-resume.pdf";
+const CV_URL_PL = "/grzegorz-sliwski-resume-pl.pdf";
 
 // ─── Arrow icon for links ────────────────────────────────────────────────────
 
@@ -64,25 +65,7 @@ function CopyIcon() {
   );
 }
 
-function CheckIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
-
-function DownloadIcon() {
+function ViewIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -95,24 +78,19 @@ function DownloadIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" x2="12" y1="15" y2="3" />
+      <path d="M2.06 12a10.94 10.94 0 0 1 19.88 0 10.94 10.94 0 0 1-19.88 0" />
+      <circle cx="12" cy="12" r="3" />
     </svg>
   );
 }
 
 // ─── Copy hook ───────────────────────────────────────────────────────────────
 
-function useCopyToClipboard(timeout = 2000) {
-  const [copied, setCopied] = useState(false);
-
+function useCopyToClipboard() {
   const copy = useCallback(
     async (text: string) => {
       try {
         await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), timeout);
       } catch {
         // fallback
         const ta = document.createElement("textarea");
@@ -123,23 +101,22 @@ function useCopyToClipboard(timeout = 2000) {
         ta.select();
         document.execCommand("copy");
         document.body.removeChild(ta);
-        setCopied(true);
-        setTimeout(() => setCopied(false), timeout);
       }
     },
-    [timeout]
+    []
   );
 
-  return { copied, copy };
+  return { copy };
 }
 
 // ─── Footer (contact) section ────────────────────────────────────────────────
 
 export function Contact() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { setSidebarHover } = useCursor();
   const emailClip = useCopyToClipboard();
   const phoneClip = useCopyToClipboard();
+  const cvUrl = lang === "pl" ? CV_URL_PL : CV_URL_EN;
 
   return (
     <footer id="contact" className="footer">
@@ -174,16 +151,21 @@ export function Contact() {
           <div className="footer__contact-row">
             <span className="footer__info-label">{t.footerEmailLabel}</span>
             <div className="footer__contact-value-row">
-              <a href={`mailto:${EMAIL}`} className="footer__info-value">
+              <button
+                type="button"
+                className="footer__info-value footer__info-value--action"
+                onClick={() => emailClip.copy(EMAIL)}
+                title={`Copy ${t.footerEmailLabel}`}
+              >
                 {EMAIL}
-              </a>
+              </button>
               <button
                 className="footer__copy-btn"
                 onClick={() => emailClip.copy(EMAIL)}
-                aria-label={emailClip.copied ? t.footerCopied : `Copy ${t.footerEmailLabel}`}
-                title={emailClip.copied ? t.footerCopied : `Copy`}
+                aria-label={`Copy ${t.footerEmailLabel}`}
+                title="Copy"
               >
-                {emailClip.copied ? <CheckIcon /> : <CopyIcon />}
+                <CopyIcon />
               </button>
             </div>
           </div>
@@ -192,16 +174,21 @@ export function Contact() {
           <div className="footer__contact-row">
             <span className="footer__info-label">{t.footerPhoneLabel}</span>
             <div className="footer__contact-value-row">
-              <a href={`tel:${PHONE.replace(/\s/g, "")}`} className="footer__info-value">
+              <button
+                type="button"
+                className="footer__info-value footer__info-value--action"
+                onClick={() => phoneClip.copy(PHONE)}
+                title={`Copy ${t.footerPhoneLabel}`}
+              >
                 {PHONE}
-              </a>
+              </button>
               <button
                 className="footer__copy-btn"
                 onClick={() => phoneClip.copy(PHONE)}
-                aria-label={phoneClip.copied ? t.footerCopied : `Copy ${t.footerPhoneLabel}`}
-                title={phoneClip.copied ? t.footerCopied : `Copy`}
+                aria-label={`Copy ${t.footerPhoneLabel}`}
+                title="Copy"
               >
-                {phoneClip.copied ? <CheckIcon /> : <CopyIcon />}
+                <CopyIcon />
               </button>
             </div>
           </div>
@@ -211,7 +198,7 @@ export function Contact() {
             <span className="footer__info-label">{t.footerCvLabel}</span>
             <div className="footer__contact-value-row">
               <a
-                href={CV_URL}
+                href={cvUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer__info-value"
@@ -219,14 +206,14 @@ export function Contact() {
                 {t.footerOpenCv}
               </a>
               <a
-                href={CV_URL}
+                href={cvUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer__copy-btn"
                 aria-label={t.footerOpenCv}
                 title={t.footerOpenCv}
               >
-                <DownloadIcon />
+                <ViewIcon />
               </a>
             </div>
           </div>

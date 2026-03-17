@@ -620,6 +620,14 @@ button:active {
   transition: color 0.25s ease;
 }
 
+.footer__info-value--action {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
 .footer__info-value:hover {
   color: #ffffff;
 }
@@ -630,15 +638,11 @@ button:active {
   justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
-  border-radius: 0.375rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
+  border: 0;
+  background: transparent;
   color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: color 0.2s ease;
   text-decoration: none;
   flex-shrink: 0;
   padding: 0;
@@ -646,8 +650,6 @@ button:active {
 
 .footer__copy-btn:hover {
   color: rgba(255, 255, 255, 0.95);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* ── Footer bottom bar ── */
@@ -857,15 +859,11 @@ button:active {
 }
 
 [data-theme="light"] .footer__copy-btn {
-  border-color: rgba(0, 0, 0, 0.12);
-  background: rgba(0, 0, 0, 0.04);
   color: rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="light"] .footer__copy-btn:hover {
   color: rgba(0, 0, 0, 0.95);
-  background: rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="light"] .footer__copyright {
