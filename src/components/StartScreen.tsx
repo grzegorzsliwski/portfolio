@@ -1,58 +1,13 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useI18n } from "../I18nContext";
 import { useCursor } from "./CursorOverlay";
 
-// ─── Obrazy do preloadowania ─────────────────────────────────────────────────
-import jaPhoto from "../assets/ja.png";
-import portfolioImg from "../assets/portfolio.png";
-import pracaDyplomowaImg from "../assets/praca-dyplomowa.png";
-import pracaDyplomowa2Img from "../assets/praca-dyplomowa-2.png";
-import platformaTreningowa1Img from "../assets/platforma-treningowa-1.jpg";
-import platformaTreningowa2Img from "../assets/platforma-treningowa-2.jpg";
-import platformaTreningowa3Img from "../assets/platforma-treningowa-3.jpg";
-import wyszukiwarkaLotowImg from "../assets/wyszukiwarka-lotow.png";
-
-const ALL_IMAGES = [
-  jaPhoto,
-  portfolioImg,
-  pracaDyplomowaImg,
-  pracaDyplomowa2Img,
-  platformaTreningowa1Img,
-  platformaTreningowa2Img,
-  platformaTreningowa3Img,
-  wyszukiwarkaLotowImg,
-];
-
-/** Preładuj obrazy i zwróć postęp 0-1 przez callback */
-function preloadImages(
-  images: string[],
-  onProgress: (ratio: number) => void,
-): Promise<void> {
-  let loaded = 0;
-  const total = images.length;
-  if (total === 0) {
-    onProgress(1);
-    return Promise.resolve();
-  }
-  return new Promise((resolve) => {
-    images.forEach((src) => {
-      const img = new Image();
-      const done = () => {
-        loaded++;
-        onProgress(loaded / total);
-        if (loaded >= total) resolve();
-      };
-      img.onload = done;
-      img.onerror = done; // nie blokuj przy błędzie
-      img.src = src;
-    });
-  });
-}
-
 // ─── Stałe ───────────────────────────────────────────────────────────────────
 
-/** Minimalny czas wyświetlania ekranu startowego (ms) */
-const MIN_LOADING_DURATION_MS = 800;
+/** Szybki licznik ładowania 0→100 */
+const PROGRESS_MAX = 100;
+const PROGRESS_STEP = 2;
+const PROGRESS_INTERVAL_MS = 15;
 
 /** Interwał odświeżania procentów (ms) */
 const TICK_INTERVAL = 30;
@@ -67,36 +22,23 @@ export function StartScreen({ onStart }: StartScreenProps) {
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [exiting, setExiting] = useState(false);
-  const imagesReady = useRef(false);
-  const minTimeReady = useRef(false);
   const { t } = useI18n();
   const { setSidebarHover } = useCursor();
 
-  // Preload obrazów + minimalne opóźnienie animacyjne
+  // Szybkie, liniowe ładowanie bez dodatkowej logiki
   useEffect(() => {
-    const tryFinish = () => {
-      if (imagesReady.current && minTimeReady.current) {
-        setProgress(100);
-        setLoaded(true);
-      }
-    };
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        const next = Math.min(prev + PROGRESS_STEP, PROGRESS_MAX);
+        if (next >= PROGRESS_MAX) {
+          setLoaded(true);
+          clearInterval(timer);
+        }
+        return next;
+      });
+    }, PROGRESS_INTERVAL_MS);
 
-    // 1) Preload obrazów – aktualizuje progress proporcjonalnie
-    preloadImages(ALL_IMAGES, (ratio) => {
-      // progress = ratio * 100, ale nie przekraczamy 99 dopóki min czas nie minie
-      setProgress((prev) => Math.max(prev, Math.round(ratio * 99)));
-    }).then(() => {
-      imagesReady.current = true;
-      tryFinish();
-    });
-
-    // 2) Minimalny czas animacji
-    const minTimer = setTimeout(() => {
-      minTimeReady.current = true;
-      tryFinish();
-    }, MIN_LOADING_DURATION_MS);
-
-    return () => clearTimeout(minTimer);
+    return () => clearInterval(timer);
   }, []);
 
   const handleStart = useCallback(() => {
