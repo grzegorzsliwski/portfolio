@@ -33,7 +33,9 @@ button:active {
   gap: 0.75rem;
   padding: 0.75rem;
   border-radius: 1rem;
-  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .social-sidebar--hovered {
@@ -144,8 +146,13 @@ button:active {
 }
 
 @keyframes nav-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ── About hover hint ─────────────────────────────────────────────────────── */
@@ -175,13 +182,23 @@ button:active {
 }
 
 @keyframes about-hover-hint-bounce {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes about-hover-hint-arrow {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(3px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
 }
 
 [data-theme="light"] .about-hover-hint {
@@ -215,7 +232,7 @@ button:active {
 }
 
 .archive-row::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-color: var(--color-green-400);
@@ -277,7 +294,9 @@ button:active {
   border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .archive-row__thumb:hover {
@@ -342,9 +361,6 @@ button:active {
 }
 
 /* ── Hover state ─────────────────────────────────────────────────────────── */
-
-
-
 
 .archive-row--active .archive-row__title {
   color: #000;
@@ -574,8 +590,13 @@ button:active {
 }
 
 @keyframes footer-pulse-anim {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* ── Footer contact column (right) ── */
@@ -894,18 +915,32 @@ button:active {
 /* ── Lightbox ─────────────────────────────────────────────────────────── */
 
 @keyframes lightbox-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes lightbox-scale-in {
-  from { transform: scale(0.85); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ── Timeline "See more" button ───────────────────────────────────────────── */
@@ -925,7 +960,10 @@ button:active {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1037,7 +1075,9 @@ body.timeline-overlay-open .mobile-drawer__toggle {
   width: 100%;
   border-radius: 1px;
   background: rgba(255, 255, 255, 0.7);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .mobile-drawer__line--1-open {
@@ -1109,7 +1149,9 @@ body.timeline-overlay-open .mobile-drawer__toggle {
   text-transform: uppercase;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.35);
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1141,7 +1183,9 @@ body.timeline-overlay-open .mobile-drawer__toggle {
   border-radius: 0.75rem;
   color: rgba(255, 255, 255, 0.35);
   text-decoration: none;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1180,7 +1224,10 @@ body.timeline-overlay-open .mobile-drawer__toggle {
   font-weight: 600;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -68,10 +68,17 @@ export function StartScreen({ onStart }: StartScreenProps) {
       </div>
 
       {/* ── Zawartość centralna ───────────────────────────────────── */}
-      <div className="flex-1 flex items-center" style={{ paddingLeft: "36%", paddingRight: "64%", paddingBottom: "15%" }}>
+      <div
+        className="flex-1 flex items-center"
+        style={{
+          paddingLeft: "36%",
+          paddingRight: "64%",
+          paddingBottom: "15%",
+        }}
+      >
         <div
           className="flex flex-col items-center gap-6"
-          style={{ cursor: 'auto' }}
+          style={{ cursor: "auto" }}
           onMouseEnter={() => setSidebarHover(true)}
           onMouseLeave={() => setSidebarHover(false)}
         >
@@ -93,9 +100,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
                 padding: 0,
               }}
             >
-              <span
-                className="block text-sm font-medium tracking-[0.3em] uppercase text-white/60 transition-colors duration-300 group-hover:text-white"
-              >
+              <span className="block text-sm font-medium tracking-[0.3em] uppercase text-white/60 transition-colors duration-300 group-hover:text-white">
                 {t.start}
               </span>
             </button>
