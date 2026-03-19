@@ -11,16 +11,32 @@ interface FooterLink {
 }
 
 const SOCIAL_LINKS: FooterLink[] = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/grzegorz-sliwski/", external: true },
-  { label: "GitHub", href: "https://github.com/grzegorzsliwski", external: true },
-  { label: "Instagram", href: "https://www.instagram.com/grzegorzsliwski/", external: true },
-  { label: "Facebook", href: "https://www.facebook.com/grzegorz.sliwski.5/", external: true },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/grzegorz-sliwski/",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/grzegorzsliwski",
+    external: true,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/grzegorzsliwski/",
+    external: true,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/grzegorz.sliwski.5/",
+    external: true,
+  },
 ];
 
 const EMAIL = "grzegorzsliwski@gmail.com";
 const PHONE = "+48 503 600 749";
-const CV_URL_EN = "/grzegorz-sliwski-resume.pdf";
-const CV_URL_PL = "/grzegorz-sliwski-resume-pl.pdf";
+const CV_URL_EN = "/CV_Grzegorz_Sliwski.pdf";
+const CV_URL_PL = "/CV_Grzegorz_Sliwski.pdf";
 
 // ─── Arrow icon for links ────────────────────────────────────────────────────
 
@@ -87,24 +103,21 @@ function ViewIcon() {
 // ─── Copy hook ───────────────────────────────────────────────────────────────
 
 function useCopyToClipboard() {
-  const copy = useCallback(
-    async (text: string) => {
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch {
-        // fallback
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-      }
-    },
-    []
-  );
+  const copy = useCallback(async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+  }, []);
 
   return { copy };
 }

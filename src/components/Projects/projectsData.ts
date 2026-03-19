@@ -50,10 +50,7 @@ export const projectsData: Project[] = [
     description:
       "Machine learning model built with transfer learning to detect pathological masses in X-ray images using Python libraries such as TensorFlow and Keras.",
     tags: ["Python", "TensorFlow", "Keras", "NIH Chest X-ray Dataset"],
-    images: [
-      pracaDyplomowaImg,
-      pracaDyplomowa2Img,
-    ],
+    images: [pracaDyplomowaImg, pracaDyplomowa2Img],
     year: "2025",
     link: "#",
     github: "#",
@@ -81,9 +78,7 @@ export const projectsData: Project[] = [
     description:
       "System for finding cheap flights and sending promotional SMS notifications. Built with Python and Twilio.",
     tags: ["Python", "Twilio"],
-    images: [
-      wyszukiwarkaLotowImg,
-    ],
+    images: [wyszukiwarkaLotowImg],
     year: "2024",
     link: "#",
     github: "#",
